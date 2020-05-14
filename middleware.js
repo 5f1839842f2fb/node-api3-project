@@ -1,4 +1,4 @@
-const db = require('./posts/postDb')
+const db = require('./users/userDb')
 
 const logger = (req, res, next) => {
   const date = new Date();

@@ -63,7 +63,7 @@ router.get('/:id/posts', (req, res) => {
 router.delete('/:id', (req, res) => {
   db.remove(req.params.id)
   .then(response => {
-    res.status(200).send(response)
+    res.status(200).json(response) //this and the put routes require .json for the response or I get 'express deprecated res.send(status): Use res.sendStatus(status) instead of .send ??????'
   })
   .catch(error => {
     res.status(500).send(error)
@@ -73,7 +73,7 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   db.update(req.params.id, req.body)
   .then(response => {
-    res.status(200).send(response)
+    res.status(200).json(response)
   })
   .catch(error => {
     res.status(500).send(error)
