@@ -1,13 +1,18 @@
 const express = require('express');
-
 const router = express.Router();
 
+const db = require('./postDb')
+const mw = require('../middleware')
+router.use(mw.logger)
+
 router.get('/', (req, res) => {
-  // do your magic!
+  res.status(200).send('hello from postRouter')
 });
 
+router.use('/:id', mw.validateUserId)
+
 router.get('/:id', (req, res) => {
-  // do your magic!
+  res.status(200).send(req.user)
 });
 
 router.delete('/:id', (req, res) => {
