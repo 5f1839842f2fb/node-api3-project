@@ -1,47 +1,83 @@
 const express = require('express');
-
 const router = express.Router();
 
+const db = require('./userDb')
+const postdb = require('../posts/postDb')
+
+const mw = require('../middleware')
+
+router.use('/:id', mw.validateUserId)
+router.post('/', mw.validateNewUser)
+router.post('/:id/posts', mw.validateNewPost)
+
 router.post('/', (req, res) => {
-  // do your magic!
+  db.insert(req.body)
+  .then(response => {
+    res.status(201).send(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.post('/:id/posts', (req, res) => {
-  // do your magic!
+  postdb.insert(req.body)
+  .then(response => {
+    res.status(201).send(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.get('/', (req, res) => {
-  // do your magic!
+  db.get()
+  .then(response => {
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.get('/:id', (req, res) => {
-  // do your magic!
+  db.getById(req.params.id)
+  .then(response => {
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.get('/:id/posts', (req, res) => {
-  // do your magic!
+  db.getUserPosts(req.params.id)
+  .then(response => {
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.delete('/:id', (req, res) => {
-  // do your magic!
+  db.remove(req.params.id)
+  .then(response => {
+    res.status(200).json(response) //this and the put routes require .json for the response or I get 'express deprecated res.send(status): Use res.sendStatus(status) instead of .send ??????'
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
 
 router.put('/:id', (req, res) => {
-  // do your magic!
+  db.update(req.params.id, req.body)
+  .then(response => {
+    res.status(200).json(response)
+  })
+  .catch(error => {
+    res.status(500).send(error)
+  })
 });
-
-//custom middleware
-
-function validateUserId(req, res, next) {
-  // do your magic!
-}
-
-function validateUser(req, res, next) {
-  // do your magic!
-}
-
-function validatePost(req, res, next) {
-  // do your magic!
-}
 
 module.exports = router;
