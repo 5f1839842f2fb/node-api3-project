@@ -13,6 +13,8 @@ server.use('/', (req, res) => {
   res.status(200).send('Hello')
 })
 
-server.listen(5005, () => {
-  console.log("listening on 5005")
+const PORT = process.env.PORT || 5005;
+
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`)
 })
